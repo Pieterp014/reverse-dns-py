@@ -37,3 +37,10 @@ the tests run anywhere `socket.gethostbyaddr` exists.
 - If there is no PTR at all, the result is `ptr=None, confirmed=False`.
 - Malformed input raises `ValueError`; truly unexpected `OSError`s propagate
   as exceptions rather than being swallowed.
+
+## Design notes
+
+The window stores values eagerly rather than keeping running aggregates. Running
+sums drift with floating point over long streams, and recomputing from a small
+buffer is cheap enough that the drift is not worth the speed.
+
